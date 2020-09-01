@@ -20,10 +20,18 @@ public class ItemControllerTest {
     private MockMvc mvc;
 
     @Test
-    public void getHello() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/getItem")
+    public void getItemByName() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/getItem?name=Pot")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("{\"id\":1,\"price\":8.3,\"description\":\"Requested item nothing.\"}")));
+                .andExpect(content().string(equalTo("{\"id\":1,\"price\":1.5,\"description\":\"Pot\"}")));
+    }
+
+    @Test
+    public void getItemById() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/getItem?id=2")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo("{\"id\":2,\"price\":4.2,\"description\":\"Aloe vera\"}")));
     }
 }

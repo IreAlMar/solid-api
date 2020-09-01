@@ -25,7 +25,7 @@ public class SolidApiApplication {
     public CommandLineRunner demo(ItemRepository repository) {
         return (args->{
             //save a few items
-            repository.save(new Item("Green plant pot", 1.50));
+            repository.save(new Item("Pot", 1.50));
             repository.save(new Item("Aloe vera", 4.20));
             repository.save(new Item("Rosemary seeds", 0.75));
             repository.save(new Item("Lavender plant", 2.85));
