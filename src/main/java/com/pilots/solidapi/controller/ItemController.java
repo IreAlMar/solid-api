@@ -4,9 +4,9 @@ import com.pilots.solidapi.repository.Item;
 
 import com.pilots.solidapi.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ItemController {
@@ -23,6 +23,14 @@ public class ItemController {
     public Item getItemById(@RequestParam(value = "id", defaultValue = "1") long id) {
         System.out.println("Testing");
         return itemService.getItem(id);
+    }
+
+    @RequestMapping(value = "/saveItem", method = RequestMethod.POST)
+    public ResponseEntity< String > saveItem(@RequestBody Item item){
+        if (itemService.saveItem(item)) {
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
+        return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
     }
 
 }

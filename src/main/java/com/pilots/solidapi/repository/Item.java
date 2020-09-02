@@ -32,7 +32,7 @@ public class Item {
         return id;
     }
 
-    public String getDescription() {
+    public String getName() {
         return name;
     }
 
