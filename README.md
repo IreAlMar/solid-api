@@ -18,3 +18,13 @@ Create a an api with the following requirements:
 * ToH2Converter
 * Items
 * Output generator
+
+## Exercise
+
+1. Application layer -> use cases, create handler class for each use case
+* get item
+* save item
+1. Create 2 new use cases:
+* create label
+* get label
+

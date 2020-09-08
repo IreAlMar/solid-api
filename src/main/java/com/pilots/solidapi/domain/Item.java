@@ -1,4 +1,4 @@
-package com.pilots.solidapi.repository;
+package com.pilots.solidapi.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

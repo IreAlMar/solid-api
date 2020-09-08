@@ -1,8 +1,8 @@
-package com.pilots.solidapi.controller;
+package com.pilots.solidapi.infrastructure.rest;
 
-import com.pilots.solidapi.repository.Item;
+import com.pilots.solidapi.application.ItemService;
+import com.pilots.solidapi.domain.Item;
 
-import com.pilots.solidapi.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ItemController {
 
+    // depends on the port, not on the adapter
     @Autowired
     private ItemService itemService;
 
