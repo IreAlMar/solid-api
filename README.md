@@ -21,7 +21,7 @@ Create a an api with the following requirements:
 
 ## Exercise
 
-1. Application layer -> use cases, create handler class for each use case
+1. Application layer -> use cases
 * get item
 * save item
 1. Create 2 new use cases:

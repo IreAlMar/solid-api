@@ -1,6 +1,6 @@
 package com.pilots.solidapi.infrastructure.internal.adapters;
 
-import com.pilots.solidapi.application.ItemService;
+import com.pilots.solidapi.application.SaveItemService;
 import com.pilots.solidapi.domain.Item;
 import com.pilots.solidapi.infrastructure.internal.data.ItemRepository;
 import org.slf4j.Logger;
@@ -9,23 +9,13 @@ import org.springframework.stereotype.Service;
 
 // adapter -> infrastructure
 @Service
-public class ItemServiceImpl implements ItemService {
+public class SaveItemServiceImpl implements SaveItemService {
 
     private final ItemRepository itemRepository;
-    private static final Logger log = LoggerFactory.getLogger(ItemServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(SaveItemServiceImpl.class);
 
-    public ItemServiceImpl(ItemRepository itemRepository) {
+    public SaveItemServiceImpl(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
-    }
-
-    @Override
-    public Item getItem(long id) {
-        return itemRepository.findById(id);
-    }
-
-    @Override
-    public Item getItem(String name) {
-        return itemRepository.findByName(name).get(0);
     }
 
     @Override

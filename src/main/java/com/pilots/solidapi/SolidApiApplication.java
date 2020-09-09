@@ -1,7 +1,9 @@
 package com.pilots.solidapi;
 
 import com.pilots.solidapi.domain.Item;
+import com.pilots.solidapi.domain.Label;
 import com.pilots.solidapi.infrastructure.internal.data.ItemRepository;
+import com.pilots.solidapi.infrastructure.internal.data.LabelRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -19,7 +21,7 @@ public class SolidApiApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(ItemRepository repository) {
+    public CommandLineRunner itemData(ItemRepository repository) {
         return (args->{
             //save a few items
             repository.save(new Item("Pot", 1.50));
@@ -45,6 +47,40 @@ public class SolidApiApplication {
 
             //fetch items by name
             log.info("Item found with findByName('Lavender plant')");
+            log.info("-----------------------------");
+            repository.findByName("Lavender plant").forEach(i->{
+                log.info(i.toString());
+            });
+            log.info("");
+        });
+    }
+
+    @Bean
+    public CommandLineRunner labelData(LabelRepository repository) {
+        return (args->{
+            //save a few items
+            repository.save(new Label("Pot", 1.50, "Plant pot"));
+            repository.save(new Label("Aloe vera", 4.20, "Aloe vera plant with pot"));
+            repository.save(new Label("Rosemary seeds", 0.75, "Packet of 50 rosemary seeds"));
+            repository.save(new Label("Lavender plant", 2.85, "Young lavender plant pot"));
+
+            //fetch all items
+            log.info("Labels found with findAll():");
+            log.info("---------------------------");
+            for (Label label : repository.findAll()) {
+                log.info(label.toString());
+            }
+            log.info("");
+
+            //fetch an individual labels by ID
+            Label label = repository.findById(9L);
+            log.info("Label found with findById(9L):");
+            log.info("-----------------------------");
+            log.info(label.toString());
+            log.info("");
+
+            //fetch labels by item name
+            log.info("Label found with findByName('Lavender plant')");
             log.info("-----------------------------");
             repository.findByName("Lavender plant").forEach(i->{
                 log.info(i.toString());
