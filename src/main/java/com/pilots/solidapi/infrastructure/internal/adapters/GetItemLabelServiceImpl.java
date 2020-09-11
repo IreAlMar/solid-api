@@ -1,6 +1,6 @@
 package com.pilots.solidapi.infrastructure.internal.adapters;
 
-import com.pilots.solidapi.application.GetItemLabelService;
+import com.pilots.solidapi.application.label.GetItemLabelService;
 import com.pilots.solidapi.domain.Label;
 import com.pilots.solidapi.infrastructure.internal.data.LabelRepository;
 import org.springframework.stereotype.Service;

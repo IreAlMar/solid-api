@@ -1,6 +1,6 @@
 package com.pilots.solidapi.infrastructure.internal.adapters;
 
-import com.pilots.solidapi.application.CreateLabelService;
+import com.pilots.solidapi.application.label.CreateLabelService;
 import com.pilots.solidapi.domain.Label;
 import com.pilots.solidapi.infrastructure.internal.data.LabelRepository;
 import org.slf4j.Logger;

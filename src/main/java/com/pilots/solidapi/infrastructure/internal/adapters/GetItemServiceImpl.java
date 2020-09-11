@@ -1,6 +1,6 @@
 package com.pilots.solidapi.infrastructure.internal.adapters;
 
-import com.pilots.solidapi.application.GetItemService;
+import com.pilots.solidapi.application.item.GetItemService;
 import com.pilots.solidapi.domain.Item;
 import com.pilots.solidapi.infrastructure.internal.data.ItemRepository;
 import org.springframework.stereotype.Service;

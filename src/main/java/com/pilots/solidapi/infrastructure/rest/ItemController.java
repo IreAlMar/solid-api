@@ -1,9 +1,8 @@
 package com.pilots.solidapi.infrastructure.rest;
 
-import com.pilots.solidapi.application.GetItemService;
-import com.pilots.solidapi.application.SaveItemService;
+import com.pilots.solidapi.application.item.GetItemService;
+import com.pilots.solidapi.application.item.SaveItemService;
 import com.pilots.solidapi.domain.Item;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,6 @@ public class ItemController {
 
     @GetMapping(value = "/getItem", params = "id")
     public Item getItemById(@RequestParam(value = "id", defaultValue = "1") long id) {
-        System.out.println("Testing");
         return getItemService.getItem(id);
     }
 

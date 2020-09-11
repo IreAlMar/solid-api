@@ -1,4 +1,4 @@
-package com.pilots.solidapi.application;
+package com.pilots.solidapi.application.item;
 
 import com.pilots.solidapi.domain.Item;
 

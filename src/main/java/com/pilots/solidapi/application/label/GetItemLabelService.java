@@ -1,4 +1,4 @@
-package com.pilots.solidapi.application;
+package com.pilots.solidapi.application.label;
 
 import com.pilots.solidapi.domain.Label;
 

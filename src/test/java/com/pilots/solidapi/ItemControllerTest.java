@@ -45,6 +45,16 @@ public class ItemControllerTest {
 
     }
 
+    @Test
+    public void saveRickItem() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.post("/saveItem")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"id\":null,\"price\":3.5,\"name\":null}")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+
+    }
+
     //TODO
     @Test
     public void saveItemInvalid() throws Exception {

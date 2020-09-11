@@ -1,8 +1,8 @@
 package com.pilots.solidapi.infrastructure.rest;
 
 
-import com.pilots.solidapi.application.CreateLabelService;
-import com.pilots.solidapi.application.GetItemLabelService;
+import com.pilots.solidapi.application.label.CreateLabelService;
+import com.pilots.solidapi.application.label.GetItemLabelService;
 import com.pilots.solidapi.domain.Label;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

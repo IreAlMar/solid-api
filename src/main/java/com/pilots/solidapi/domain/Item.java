@@ -17,9 +17,9 @@ public class Item {
     //Constructor for the shake of JPA
     protected Item(){}
 
-    public Item(String description, double price) {
+    public Item(String name, double price) {
 
-        this.name = description;
+        this.name = name;
         this.price = price;
     }
 
