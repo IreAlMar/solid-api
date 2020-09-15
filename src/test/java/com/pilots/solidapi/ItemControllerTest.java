@@ -55,6 +55,25 @@ public class ItemControllerTest {
 
     }
 
+
+    @Test
+    public void updateItemPrice() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/updateItemPrice?id=1&price=20")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo("{\"id\":1,\"name\":\"Pot\",\"price\":20.0}")));
+
+    }
+
+    @Test
+    public void updateItemPriceFail() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/updateItemPrice?id=505&price=20")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(equalTo("")));
+
+    }
+
     //TODO
     @Test
     public void saveItemInvalid() throws Exception {

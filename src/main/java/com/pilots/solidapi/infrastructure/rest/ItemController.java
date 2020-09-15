@@ -2,6 +2,7 @@ package com.pilots.solidapi.infrastructure.rest;
 
 import com.pilots.solidapi.application.item.GetItemService;
 import com.pilots.solidapi.application.item.SaveItemService;
+import com.pilots.solidapi.application.item.UpdateItemPriceService;
 import com.pilots.solidapi.domain.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,9 @@ public class ItemController {
     @Autowired
     private SaveItemService saveItemService;
 
+    @Autowired
+    private UpdateItemPriceService updateItemPrice;
+
     @GetMapping(value = "/getItem", params = "name")
     public Item getItemByName(@RequestParam(value = "name", defaultValue = "empty") String name) {
         return getItemService.getItem(name);
@@ -28,8 +32,18 @@ public class ItemController {
         return getItemService.getItem(id);
     }
 
+    @GetMapping(value = "/updateItemPrice", params = "id")
+    public ResponseEntity<Item> updateItemPrice(@RequestParam(value = "id", defaultValue = "1") long id,
+                                                @RequestParam(value = "price") double price) {
+        Item item = updateItemPrice.updateItemPrice(id, price);
+        if (item != null) {
+            return new ResponseEntity(item, HttpStatus.OK);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
     @RequestMapping(value = "/saveItem", method = RequestMethod.POST)
-    public ResponseEntity< String > saveItem(@RequestBody Item item){
+    public ResponseEntity<String> saveItem(@RequestBody Item item) {
         if (saveItemService.saveItem(item)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
