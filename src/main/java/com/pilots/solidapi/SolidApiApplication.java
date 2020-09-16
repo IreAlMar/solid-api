@@ -1,7 +1,10 @@
 package com.pilots.solidapi;
 
-import com.pilots.solidapi.domain.Item;
 import com.pilots.solidapi.domain.Label;
+import com.pilots.solidapi.domain.item.InvalidItemPriceException;
+import com.pilots.solidapi.domain.item.Item;
+import com.pilots.solidapi.domain.item.ItemName;
+import com.pilots.solidapi.domain.item.ItemPrice;
 import com.pilots.solidapi.infrastructure.internal.data.ItemRepository;
 import com.pilots.solidapi.infrastructure.internal.data.LabelRepository;
 import org.slf4j.Logger;
@@ -24,11 +27,15 @@ public class SolidApiApplication {
     public CommandLineRunner itemData(ItemRepository repository) {
         return (args->{
             //save a few items
-            repository.save(new Item("Pot", 1.50));
-            repository.save(new Item("Aloe vera", 4.20));
-            repository.save(new Item("Rosemary seeds", 0.75));
-            repository.save(new Item("Lavender plant", 2.85));
-            repository.save(new Item("Lemongrass seeds", 3.0));
+            try {
+                repository.save(new Item(new ItemName("Pot"), new ItemPrice(1.50)));
+                repository.save(new Item(new ItemName("Aloe vera"), new ItemPrice(4.20)));
+                repository.save(new Item(new ItemName("Rosemary seeds"), new ItemPrice(0.75)));
+                repository.save(new Item(new ItemName("Lavender plant"), new ItemPrice(2.85)));
+                repository.save(new Item(new ItemName("Lemongrass seeds"), new ItemPrice(3.0)));
+            } catch (InvalidItemPriceException e) {
+                e.printStackTrace();
+            }
 
             //fetch all items
             log.info("Items found with findAll():");
@@ -48,7 +55,7 @@ public class SolidApiApplication {
             //fetch items by name
             log.info("Item found with findByName('Lavender plant')");
             log.info("-----------------------------");
-            repository.findByName("Lavender plant").forEach(i->{
+            repository.findByName(new ItemName("Lavender plant")).forEach(i->{
                 log.info(i.toString());
             });
             log.info("");

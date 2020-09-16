@@ -2,7 +2,7 @@ package com.pilots.solidapi.infrastructure.internal.adapters;
 
 import com.pilots.solidapi.application.item.NameRequestService;
 import com.pilots.solidapi.application.item.SaveItemService;
-import com.pilots.solidapi.domain.Item;
+import com.pilots.solidapi.domain.item.*;
 import com.pilots.solidapi.infrastructure.internal.data.ItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,18 +23,25 @@ public class SaveItemServiceImpl implements SaveItemService {
 
     @Override
     public boolean saveItem(Item item) {
-        String itemName = nameRequestService.getName();
+        ItemName itemName = new ItemName(nameRequestService.getName());
         Item itemWithRandomName = new Item(itemName, item.getPrice());
 
-        if (isValidItem(itemWithRandomName)) {
-            log.info("Repo saved item: " + itemRepository.save(itemWithRandomName));
-            return true;
-        }
-        log.info("Invalid item " + itemWithRandomName.toString());
-        return false;
+        log.info("Repo saved item: " + itemRepository.save(itemWithRandomName));
+        return true;
+        //        aqui iria lo de crear un evento?
+        //        log.info("Invalid item " + itemWithRandomName.toString());
+        //        return false;
     }
 
-    private boolean isValidItem(Item item) {
-        return (item.getName() != "") && (item.getPrice() > 0);
+    @Override
+    public Item saveItem(Double price) throws InvalidItemPriceException {
+        ItemName itemName = new ItemName(nameRequestService.getName());
+        Item item = new Item(itemName, new ItemPrice(price));
+        Item savedItem = itemRepository.save(item);
+
+        log.info("Repo saved item: " + savedItem.toString());
+
+        return savedItem;
     }
+
 }

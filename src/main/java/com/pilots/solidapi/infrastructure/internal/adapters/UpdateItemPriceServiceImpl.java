@@ -1,7 +1,8 @@
 package com.pilots.solidapi.infrastructure.internal.adapters;
 
 import com.pilots.solidapi.application.item.UpdateItemPriceService;
-import com.pilots.solidapi.domain.Item;
+import com.pilots.solidapi.domain.item.InvalidItemPriceException;
+import com.pilots.solidapi.domain.item.Item;
 import com.pilots.solidapi.infrastructure.internal.data.ItemRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +16,13 @@ public class UpdateItemPriceServiceImpl implements UpdateItemPriceService {
     }
 
     @Override
-    public Item updateItemPrice(long id, double price) {
+    public Item updateItemPrice(long id, double price) throws InvalidItemPriceException {
         Item item = itemRepository.findById(id);
-        if (null != item && price > 0) {
+        if (null != item) {
             item.setPrice(price);
-            itemRepository.save(item);
-            return itemRepository.findById(id);
+            return itemRepository.save(item);
         }
-        //excepcion??
-        
+
         return null;
     }
 }

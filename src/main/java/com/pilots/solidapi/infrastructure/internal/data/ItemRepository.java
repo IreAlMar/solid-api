@@ -1,6 +1,7 @@
 package com.pilots.solidapi.infrastructure.internal.data;
 
-import com.pilots.solidapi.domain.Item;
+import com.pilots.solidapi.domain.item.Item;
+import com.pilots.solidapi.domain.item.ItemName;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 // the DB
 public interface ItemRepository extends CrudRepository<Item, Long> {
 
-    List<Item> findByName(String name);
+    List<Item> findByName(ItemName name);
 
     Item findById(long id);
 }
