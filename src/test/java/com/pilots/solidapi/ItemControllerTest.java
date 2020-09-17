@@ -69,20 +69,47 @@ public class ItemControllerTest {
 
     @Test
     public void saveItem() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post("/saveItem")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":null,\"price\":3.5,\"name\":\"Cactus\"}")
+        mvc.perform(MockMvcRequestBuilders.get("/saveItem?name=Cactus&price=3.5")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(content().string(equalTo("{\"id\":10,\"name\":{\"itemName\":\"Cactus\"}," +
+                        "\"price\":{\"itemPrice\":3.5}}")));
     }
 
     @Test
-    public void saveRickItem() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post("/saveItem")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":null,\"price\":3.5,\"name\":null}")
+    public void saveItemNoName() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/saveItem?price=3.5")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void saveItemInvalidName() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/saveItem?name=&price=3.5")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void saveItemNullPrice() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/saveItem?name=Cactus&price=null")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void saveItemInvalidPrice() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/saveItem?name=Cactus&price=-3.5")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(equalTo("Invalid price -3.5")));
+    }
+
+    @Test
+    public void saveItemNoPrice() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/saveItem?name=Cactus")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -112,37 +139,47 @@ public class ItemControllerTest {
     }
 
     @Test
-    public void saveItemByPrice() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/saveItem?price=50")
+    public void createItemByPrice() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/createItem?price=50")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(content().json("{\"id\":12,\"name\":{\"itemName\":\"Pot\"},\"price\":{\"itemPrice\":50" +
+                .andExpect(content().json("{\"id\":11,\"name\":{\"itemName\":\"Pot\"},\"price\":{\"itemPrice\":50" +
                         ".0}}", false));
     }
 
     @Test
-    public void saveItemByPriceOverMaxPrice() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/saveItem?price=50000")
+    public void createItemByPriceOverMaxPrice() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/createItem?price=50000")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(equalTo("Invalid price 50000.0")));
     }
 
     @Test
-    public void saveItemByPriceUnderMinPrice() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/saveItem?price=-8")
+    public void createItemByPriceUnderMinPrice() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/createItem?price=-8")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(equalTo("Invalid price -8.0")));
     }
 
     @Test
-    public void saveItemInvalidPrice() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post("/saveItem")
+    public void createItemInvalidPrice() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/createItem?price=price")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":null,\"price\":-3.5,\"name\":null}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(equalTo("")));
+    }
+
+    //TODO
+    @Test
+    public void createItemNameRequesterOff() throws Exception {
+        Mockito.when(nameRequestService.getName())
+                .thenReturn(null);
+        mvc.perform(MockMvcRequestBuilders.get("/createItem?price=50")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError());
     }
 }

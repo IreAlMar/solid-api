@@ -4,6 +4,7 @@ import com.pilots.solidapi.application.item.NameRequestService;
 import com.pilots.solidapi.application.item.SaveItemService;
 import com.pilots.solidapi.domain.item.*;
 import com.pilots.solidapi.infrastructure.internal.data.ItemRepository;
+import com.pilots.solidapi.infrastructure.internal.exception.InvalidItemNameException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,24 +23,21 @@ public class SaveItemServiceImpl implements SaveItemService {
     }
 
     @Override
-    public boolean saveItem(Item item) {
-        ItemName itemName = new ItemName(nameRequestService.getName());
-        Item itemWithRandomName = new Item(itemName, item.getPrice());
+    public Item saveItem(String name, Double price) throws InvalidItemPriceException, InvalidItemNameException {
+        ItemName itemName = new ItemName(name);
+        ItemPrice itemPrice = new ItemPrice(price);
+        Item validItem = new Item(itemName, itemPrice);
+        Item savedItem = itemRepository.save(validItem);
 
-        log.info("Repo saved item: " + itemRepository.save(itemWithRandomName));
-        return true;
+        return savedItem;
         //        aqui iria lo de crear un evento?
-        //        log.info("Invalid item " + itemWithRandomName.toString());
-        //        return false;
     }
 
     @Override
-    public Item saveItem(Double price) throws InvalidItemPriceException {
+    public Item saveItemRandomName(Double price) throws InvalidItemPriceException, InvalidItemNameException {
         ItemName itemName = new ItemName(nameRequestService.getName());
         Item item = new Item(itemName, new ItemPrice(price));
         Item savedItem = itemRepository.save(item);
-
-        log.info("Repo saved item: " + savedItem.toString());
 
         return savedItem;
     }

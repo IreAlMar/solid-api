@@ -7,6 +7,7 @@ import com.pilots.solidapi.domain.item.ItemName;
 import com.pilots.solidapi.domain.item.ItemPrice;
 import com.pilots.solidapi.infrastructure.internal.data.ItemRepository;
 import com.pilots.solidapi.infrastructure.internal.data.LabelRepository;
+import com.pilots.solidapi.infrastructure.internal.exception.InvalidItemNameException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -35,6 +36,8 @@ public class SolidApiApplication {
                 repository.save(new Item(new ItemName("Lemongrass seeds"), new ItemPrice(3.0)));
             } catch (InvalidItemPriceException e) {
                 e.printStackTrace();
+            } catch (InvalidItemNameException e) {
+                e.printStackTrace();
             }
 
             //fetch all items
@@ -55,9 +58,13 @@ public class SolidApiApplication {
             //fetch items by name
             log.info("Item found with findByName('Lavender plant')");
             log.info("-----------------------------");
-            repository.findByName(new ItemName("Lavender plant")).forEach(i->{
-                log.info(i.toString());
-            });
+            try {
+                repository.findByName(new ItemName("Lavender plant")).forEach(i->{
+                    log.info(i.toString());
+                });
+            } catch (InvalidItemNameException e) {
+                e.printStackTrace();
+            }
             log.info("");
         });
     }

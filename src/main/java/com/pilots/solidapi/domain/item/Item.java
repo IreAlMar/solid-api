@@ -21,6 +21,7 @@ public class Item {
     protected Item(){}
 
     public Item(ItemName name, ItemPrice price) {
+        //validation??
 
         this.name = name;
         this.price = price;

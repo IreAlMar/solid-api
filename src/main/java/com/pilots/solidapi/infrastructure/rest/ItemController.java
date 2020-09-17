@@ -61,22 +61,31 @@ public class ItemController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @GetMapping(value = "/saveItem", params = "price")
-    public ResponseEntity<String> saveItem(@RequestParam(value = "price") Double price) {
+    @GetMapping(value = "/createItem", params = "price")
+    public ResponseEntity<String> createItem(@RequestParam(value = "price") Double price) {
         try {
-            Item savedItem = saveItemService.saveItem(price);
+            Item savedItem = saveItemService.saveItemRandomName(price);
             return new ResponseEntity(savedItem, HttpStatus.CREATED);
 
         } catch (InvalidItemPriceException e) {
             return new ResponseEntity<>("Invalid price " + price, HttpStatus.BAD_REQUEST);
+        }//name requester off
+        catch (InvalidItemNameException e) {
+            return new ResponseEntity<>("Name requester service error.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @RequestMapping(value = "/saveItem", method = RequestMethod.POST)
-    public ResponseEntity<String> saveItemPost(@RequestBody Item item) {
-        if (saveItemService.saveItem(item)) {
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+    @GetMapping(value = "/saveItem")
+    public ResponseEntity<String> saveItem(@RequestParam(value = "price") Double price,
+                                               @RequestParam(value = "name") String name) {
+        try {
+            Item savedItem = saveItemService.saveItem(name, price);
+            return new ResponseEntity(savedItem, HttpStatus.CREATED);
+        } catch (InvalidItemPriceException e) {
+            return new ResponseEntity<>("Invalid price " + price, HttpStatus.BAD_REQUEST);
+        } catch (InvalidItemNameException e) {
+            return new ResponseEntity<>("Invalid name " + name, HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
+
     }
 }

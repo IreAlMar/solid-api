@@ -1,18 +1,20 @@
 package com.pilots.solidapi.domain.item;
 
-import java.util.Objects;
+import com.pilots.solidapi.infrastructure.internal.exception.InvalidItemNameException;
 
 public class ItemName {
     String itemName;
 
-    public ItemName(String itemName) {
-        if (isValidName(itemName)) {
-            this.itemName = itemName;
-        }
+    public ItemName(String itemName) throws InvalidItemNameException {
+        validate(itemName);
+        this.itemName = itemName;
     }
 
-    private boolean isValidName(String itemName) {
-        return !Objects.requireNonNull(itemName).isEmpty();
+    private void validate(String itemName) throws InvalidItemNameException {
+        if (itemName == null || itemName.equals("") || itemName.isEmpty()) {
+            throw new InvalidItemNameException();
+        }
+
     }
 
     public String getItemName() {

@@ -1,6 +1,7 @@
 package com.pilots.solidapi.infrastructure.internal.data.converter;
 
 import com.pilots.solidapi.domain.item.ItemName;
+import com.pilots.solidapi.infrastructure.internal.exception.InvalidItemNameException;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -17,10 +18,17 @@ public class ItemNameConverter implements AttributeConverter<ItemName, String> {
 
     @Override
     public ItemName convertToEntityAttribute(String dbItemName) {
+        ItemName itemName = null;
         if (dbItemName == null || dbItemName.isEmpty()) {
             return null;
         }
 
-        return new ItemName(dbItemName);
+        try {
+            itemName = new ItemName(dbItemName);
+        } catch (InvalidItemNameException e) {
+            e.printStackTrace();
+        }
+
+        return itemName;
     }
 }
